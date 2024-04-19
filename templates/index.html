@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo List Site</title>
+    {{ bootstrap.load_css() }}
+</head>
+<body>
+<div class="mx-5">
+    <nav class="navbar px-4 pt-4">
+        <a class="navbar-brand fw-bold fs-10" href="#"><span class="fs-4">TODOManager</span></a>
+        <ul class="nav justify-content-end">
+            <li class="nav-item">
+                <a aria-current="page" class="nav-link active text-black" href="{{ url_for('home') }}">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-black" href="{{ url_for('add') }}">Add Task</a>
+            </li>
+        </ul>
+    </nav>
+
+    <hr/>
+
+    <div class="mt-5">
+        {% if tasks %}
+        <div>
+            {% for task in tasks %}
+            <div class="card mb-3 d-flex flex-row">
+                <div class="card-body">
+                    <h1>{{ task.task_name }}</h1>
+                    <p><b>Description:</b> {{ task.description }}</p>
+                    <p><b>Due Date:</b> {{ task.due_date }}</p>
+                </div>
+
+                <div class="d-flex justify-content-between" >
+                   <form class="p-4 " action="{{ url_for('delete_task', task_id=task.id) }}" method="post">
+                    <button class="btn btn-danger " type="submit">Delete</button>
+                </form>
+                <form class="p-4" action="{{ url_for('edit_task', task_id=task.id) }}" method="post">
+                    <button class="btn btn-primary px-4" type="submit">Edit</button>
+                </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% else %}
+        <div class="d-flex justify-content-center align-center">
+            <h1>No tasks available.</h1>
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+
+{{ bootstrap.load_js() }}
+</body>
+</html>
